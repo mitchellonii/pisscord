@@ -88,18 +88,11 @@ class Quark {
         }
         this.subscribeUpdates = () => {
             if (this.websocket.rawsocket == undefined) return false;
-            var ee = new EventEmitter()
+            this.websocket.rawsocket.send(JSON.stringify({ "event": "subscribe", "message": `quark_${this.id}` }))
 
             for (let c of this.channels) {
                 this.websocket.rawsocket.send(JSON.stringify({ "event": "subscribe", "message": `channel_${c.id}` }))
             }
-            this.websocket.rawsocket.addEventListener("message", (msg) => {
-                let data = JSON.parse(msg.data)
-                if (data.eventId == "messageCreate" && this.channels.map(c => c.id).includes(data.message.channelId)) {
-                    ee.emit("newMessage", { quark: this, message: data })
-                }
-            })
-            return ee
 
         }
         this.updateQuark = async (data) => {

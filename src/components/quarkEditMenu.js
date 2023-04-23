@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 function QuarkEditMenu({ setUserQuarks, displayQuarkEditContextData, toggleQuarkEditContextData, displayQuarkEditContext, toggleQuarkEditContext, api }) {
     let [selectedOption, setSelectedOption] = useState(0);
     if (!displayQuarkEditContext) return;
-    console.log(displayQuarkEditContextData)
     return <div className="fullScreenMenu">
         <div className="menuBar">
             <div className="title"><h1>{displayQuarkEditContextData.name.toUpperCase()}</h1></div>
@@ -55,22 +54,18 @@ function Overview({ index, currentIndex, data, api, setData, setUserQuarks }) {
     async function saveChanges() {
         if (changes.icon) {
             let x = await data.updateIcon({ file: changes.icon })
-            console.log(x)
             setChanges({ ...changes, icon: null })
 
         }
         if (changes.invite) {
             let y = await data.updateQuark({ invite: changes.invite })
-            console.log(y)
             setChanges({ ...changes, invite: null })
         }
         if (changes.name) {
             let y = await data.updateQuark({ name: changes.name })
-            console.log(y)
             setChanges({ ...changes, name: null })
         }
 
-        console.log(data)
     }
 
 

@@ -51,11 +51,7 @@ class API {
 
                 })
             },
-            rawsocket: undefined,
-            subscribeMe: async () => {
-                if (this.websocket.connected == false) return false;
-                this.websocket.rawsocket.send(JSON.stringify({ event: 'subscribe', message: "me" }))
-            }
+            rawsocket: undefined
         }
         this.fetchToken = async (data) => {
             var [email, password] = [data?.email || this.email, data?.password || this.password];
@@ -360,18 +356,22 @@ class API {
             }
         }
 
-        this.messageListener = async (data) => {
+        this.eventListner = async (data) => {
             let a_t = data?.access_token || this.access_token
             if (a_t == undefined) return { "error": "please enter a access token" }
+
             var ee = new EventEmitter()
 
+
+            this.websocket.rawsocket.send(JSON.stringify({ event: 'subscribe', message: "me" }))
             let mq = await this.getMyQuarks(data)
             for (var q of mq) {
-                let msgsListner = q.subscribeUpdates()
-                msgsListner.on("newMessage", data => {
-                    ee.emit("newMessage", data)
-                })
+                q.subscribeUpdates()
             }
+            this.websocket.rawsocket.addEventListener('message', (data) => {
+                let message = JSON.parse(data.data);
+                ee.emit('event', message)
+            })
             return ee
         }
         this.getQuarkOrder = async (data) => {

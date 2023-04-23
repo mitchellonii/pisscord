@@ -35,25 +35,38 @@ function App() {
   async function connectWebSock() {
     if (wsConnect == true) return
     wsConnect = true;
-    console.log(wsConnect)
-    console.log("connecting to ws...")
     let sockState = await api.websocket.connect()
     if (sockState == true) {
-      api.websocket.rawsocket.addEventListener('message', (data) => {
-        let raw = JSON.parse(data.data)
-        switch (raw.eventId) {
-          case 'quarkOrderUpdate':
-            setQuarkOrder(raw.order)
+      console.log("connected to ws", api.websocket)
+      let listner = await api.eventListner()
+      listner.on("event", async (data) => {
+        switch (data.eventId) {
+          case "subscribe":
+            break;
+          case "heartbeat":
+            break;
+          case "quarkOrderUpdate":
+            setQuarkOrder(data.order)
+            break;
+          case "quarkUpdate":
+            let uq = await api.getMyQuarks()
+            setUserQuarks(uq)
+            break;
+          case "quarkDelete":
+            let p = await Promise.all([api.getMyQuarks(), api.getQuarkOrder()])
+            setUserQuarks(p[0]);
+            setQuarkOrder(p[1]);
             break;
           default:
-            console.log(raw)
+            console.log(data)
             break;
         }
       })
-      console.log("connected to ws", api.websocket)
-      api.websocket.subscribeMe()
+
     }
+
   }
+
 
   function devServer(ret = false) {
     api = new Api({}, devDomain, wsDevDomain)
