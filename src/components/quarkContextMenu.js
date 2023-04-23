@@ -40,8 +40,11 @@ function QuarkContextMenu({ displayQuarkEditContextData, toggleQuarkEditContextD
         toggleQuarkEditContextData(data);
         toggleQuarkEditContext(true)
     }
-
+    function handleInvite(e) {
+        navigator.clipboard.writeText(data.invite);
+    }
     return <div className="contextMenu" style={{ top: pos.y, left: pos.x }}>
+        <div onClick={handleInvite}><a>Copy invite</a></div>
         {
             (order.indexOf(data.id) !== 0 ? <div onClick={moveUp}><a>Move up</a></div> : "")
         }

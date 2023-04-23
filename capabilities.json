@@ -11,6 +11,7 @@
         "full": [
             "general.opensource",
             "general.authentication",
+            "general.gateway",
             "quarks.create",
             "quarks.icon",
             "quarks.list",
@@ -18,7 +19,7 @@
             "quarks.join",
             "quarks.leave",
             "quarks.order",
-            "general.gateway"
+            "quarks.invite"
         ],
         "partial": [
             {
@@ -36,10 +37,6 @@
             {
                 "feature": "quarks.edit",
                 "reason": "User can edit quarks, client doesn't handle external edits"
-            },
-            {
-                "feature": "quarks.invite",
-                "reason": "Only the admin/owner of a quark can view it's invite code (found in the 'edit' quark submenu)"
             }
         ],
         "unsupported": [
