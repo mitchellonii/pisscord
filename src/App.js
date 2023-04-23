@@ -39,29 +39,51 @@ function App() {
     if (sockState == true) {
       console.log("connected to ws", api.websocket)
       let listner = await api.eventListner()
-      listner.on("event", async (data) => {
-        switch (data.eventId) {
-          case "subscribe":
-            break;
-          case "heartbeat":
-            break;
-          case "quarkOrderUpdate":
-            setQuarkOrder(data.order)
-            break;
-          case "quarkUpdate":
-            let uq = await api.getMyQuarks()
-            setUserQuarks(uq)
-            break;
-          case "quarkDelete":
-            let p = await Promise.all([api.getMyQuarks(), api.getQuarkOrder()])
-            setUserQuarks(p[0]);
-            setQuarkOrder(p[1]);
-            break;
-          default:
-            console.log(data)
-            break;
+
+      var listnerHandler = async (data) => {
+        {
+          switch (data.eventId) {
+            case "subscribe":
+              break;
+            case "heartbeat":
+              break;
+            case "quarkOrderUpdate":
+              setQuarkOrder(data.order)
+              break;
+            case "quarkUpdate":
+              let uq = await api.getMyQuarks()
+              setUserQuarks(uq)
+              break;
+            case "quarkDelete":
+              let p = await Promise.all([api.getMyQuarks(), api.getQuarkOrder()])
+              setUserQuarks(p[0]);
+              setQuarkOrder(p[1]);
+              break;
+            default:
+              console.log(data)
+              break;
+          }
         }
-      })
+      }
+
+
+      listner.on("event", listnerHandler)
+
+      var websocketReviver2point0 = async () => {
+        api.websocket.connected = false;
+        api.websocket.rawsocket = undefined;
+        console.log("websock disconnect, attempting to fix")
+        setTimeout(async () => {
+          let h = await api.websocket.connect()
+          if (h == false) { setTimeout(websocketReviver2point0, 5000) }
+          let listner = await api.eventListner()
+          listner.on("event", listnerHandler)
+          console.log("revived websock")
+        }, 5000)
+
+      }
+      api.websocket.rawsocket.onclose = websocketReviver2point0
+
 
     }
 

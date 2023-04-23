@@ -37,12 +37,7 @@ class API {
                         }, 50000)
                         res(true);
                     }
-                    this.websocket.rawsocket.onclose = async () => {
-                        this.websocket.connected = false;
-                        this.websocket.rawsocket = undefined;
-                        await this.websocket.connect()
-                        this.websocket.subscribeMe()
-                    }
+
                     this.websocket.rawsocket.onerror = (e) => {
                         this.websocket.connected = false;
                         alert(e)
