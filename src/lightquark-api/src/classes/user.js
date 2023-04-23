@@ -1,7 +1,3 @@
-import fetch from "node-fetch"
-import EventEmitter from 'events'
-import WebSocket from "ws"
-
 import Quark from "./quark.js"
 import Channel from "./channel.js"
 import Message from "./message.js"
