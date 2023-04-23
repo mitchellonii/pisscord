@@ -4,6 +4,9 @@ import User from "./user.js"
 import API from "./api.js"
 
 
+import fetch from "node-fetch"
+import EventEmitter from 'events'
+import WebSocket from "ws"
 class Channel {
     constructor(opts, jwt, ws, baseDomain, wsBaseDomain) {
         this.websocket = ws;
