@@ -17,13 +17,10 @@
             "quarks.view",
             "quarks.join",
             "quarks.leave",
-            "quarks.order"
+            "quarks.order",
+            "general.gateway"
         ],
         "partial": [
-            {
-                "feature": "general.gateway",
-                "reason": "WIP (functionallity is implemented, never used)"
-            },
             {
                 "feature": "general.notifications",
                 "reason": "WIP (functionallity is implemented, never used)"
