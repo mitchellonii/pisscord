@@ -1,0 +1,58 @@
+{
+    "$schema": "https://lq.litdevs.org/capability.schema.json",
+    "client": {
+        "name": "Pisscord",
+        "author": "Mitch",
+        "version": "0.0.1",
+        "repository": "https://github.com/mitchelloni/pisscord",
+        "url": "http://localhost:3000"
+    },
+    "features": {
+        "full": [
+            "general.opensource",
+            "general.authentication",
+            "quarks.create",
+            "quarks.icon",
+            "quarks.list",
+            "quarks.view",
+            "quarks.join",
+            "quarks.leave"
+        ],
+        "partial": [
+            {
+                "feature": "general.gateway",
+                "reason": "WIP (functionallity is implemented, never used)"
+            },
+            {
+                "feature": "general.notifications",
+                "reason": "WIP (functionallity is implemented, never used)"
+            },
+            {
+                "feature": "general.networks",
+                "reason": "Only has support for lq.litdevs.org and lq-dev.litdevs.org"
+            },
+            {
+                "feature": "quarks.delete",
+                "reason": "User can delete quarks, client doesn't handle external deletions"
+            },
+            {
+                "feature": "quarks.edit",
+                "reason": "User can edit quarks, client doesn't handle external edits"
+            },
+            {
+                "feature": "quarks.invite",
+                "reason": "Only the admin/owner of a quark can view it's invite code (found in the 'edit' quark submenu)"
+            },
+            {
+                "feature": "quarks.order",
+                "reason": "Respects order, user can change order, doesn't handle external order change events"
+            }
+        ],
+        "unsupported": [
+            "general.deeplink",
+            "channels.*",
+            "messages.*",
+            "users.*"
+        ]
+    }
+}
