@@ -5,7 +5,7 @@
         "author": "Mitch",
         "version": "0.0.1",
         "repository": "https://github.com/mitchelloni/pisscord",
-        "url": "http://localhost:3000"
+        "url": "https://pisscord.vercel.app/"
     },
     "features": {
         "full": [
