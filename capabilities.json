@@ -3,7 +3,7 @@
     "client": {
         "name": "Pisscord",
         "author": "Mitch",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "repository": "https://github.com/mitchelloni/pisscord",
         "url": "https://pisscord.vercel.app/"
     },
@@ -16,7 +16,8 @@
             "quarks.list",
             "quarks.view",
             "quarks.join",
-            "quarks.leave"
+            "quarks.leave",
+            "quarks.order"
         ],
         "partial": [
             {
@@ -42,10 +43,6 @@
             {
                 "feature": "quarks.invite",
                 "reason": "Only the admin/owner of a quark can view it's invite code (found in the 'edit' quark submenu)"
-            },
-            {
-                "feature": "quarks.order",
-                "reason": "Respects order, user can change order, doesn't handle external order change events"
             }
         ],
         "unsupported": [

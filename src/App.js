@@ -30,7 +30,30 @@ function App() {
   var [quarkOrder, setQuarkOrder] = useState([])
   var [initLoadText, setInitLoadText] = useState(null)
 
+  var wsConnect = false;
 
+  async function connectWebSock() {
+    if (wsConnect == true) return
+    wsConnect = true;
+    console.log(wsConnect)
+    console.log("connecting to ws...")
+    let sockState = await api.websocket.connect()
+    if (sockState == true) {
+      api.websocket.rawsocket.addEventListener('message', (data) => {
+        let raw = JSON.parse(data.data)
+        switch (raw.eventId) {
+          case 'quarkOrderUpdate':
+            setQuarkOrder(raw.order)
+            break;
+          default:
+            console.log(raw)
+            break;
+        }
+      })
+      console.log("connected to ws", api.websocket)
+      api.websocket.subscribeMe()
+    }
+  }
 
   function devServer(ret = false) {
     api = new Api({}, devDomain, wsDevDomain)
@@ -87,6 +110,7 @@ function App() {
     setQuarkOrder(order)
     setUserData(userInfo)
     setSelectedQuarkId(order[0])
+    connectWebSock()
     setTimeout(() => {
       setLSHA(true)
       setTimeout(() => {

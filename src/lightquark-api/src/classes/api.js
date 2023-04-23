@@ -1,6 +1,5 @@
 import fetch from "node-fetch"
 import EventEmitter from 'events'
-import WebSocket from "ws"
 
 import Quark from "./quark.js"
 import Channel from "./channel.js"
@@ -30,28 +29,33 @@ class API {
                     if (this.websocket.connected == true) return rej();
                     let a_t = data?.access_token || this.access_token
                     if (a_t == undefined) return { "error": "please enter a access token" }
-                    this.websocket.rawsocket = new WebSocket(`wss://${wsBaseDomain}.litdevs.org`, a_t)
+                    this.websocket.rawsocket = new WebSocket(`wss://${wsBaseDomain}`, a_t)
                     this.websocket.rawsocket.onopen = () => {
                         this.websocket.connected = true;
                         setInterval(() => {
-                            this.websocket.rawsocket.send(JSON.stringify({ heartbeat: "hello! - from blamequark-lq-api@0.1" }))
-                        }, 3000)
+                            this.websocket.rawsocket.send(JSON.stringify({ event: 'heartbeat', message: 'ok' }))
+                        }, 50000)
                         res(true);
                     }
-                    this.websocket.rawsocket.onclose = () => {
+                    this.websocket.rawsocket.onclose = async () => {
                         this.websocket.connected = false;
-                        alert("websocket dead. blamequark will now shit itself. please refresh")
                         this.websocket.rawsocket = undefined;
-                        rej(false)
+                        await this.websocket.connect()
+                        this.websocket.subscribeMe()
                     }
                     this.websocket.rawsocket.onerror = (e) => {
                         this.websocket.connected = false;
                         alert(e)
                         rej(false)
                     }
+
                 })
             },
-            rawsocket: undefined
+            rawsocket: undefined,
+            subscribeMe: async () => {
+                if (this.websocket.connected == false) return false;
+                this.websocket.rawsocket.send(JSON.stringify({ event: 'subscribe', message: "me" }))
+            }
         }
         this.fetchToken = async (data) => {
             var [email, password] = [data?.email || this.email, data?.password || this.password];
