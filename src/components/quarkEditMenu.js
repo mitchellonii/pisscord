@@ -246,7 +246,7 @@ function Channels({ index, currentIndex, data, editData, api }) {
                         <input id="desc" placeholder={selectedChannel.description} defaultValue={selectedChannel.description} onInput={handleDescInput}></input>
                     </section>
                 </form>
-                <button onClick={deleteChannel}>Delete</button>
+                <button onClick={deleteChannel} className="red">Delete</button>
                 <button onClick={unselect}>Back</button>
             </div>
 
