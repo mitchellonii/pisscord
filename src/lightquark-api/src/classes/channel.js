@@ -64,6 +64,50 @@ class Channel {
                 return json
             }
         }
+        this.delete = async (data) => {
+            let a_t = data?.access_token || jwt
+            if (a_t == undefined) return { "error": "please enter a access token" }
+
+
+            let f = await fetch(`https://${baseDomain}/v1/channel/${this.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${a_t}`,
+                },
+            })
+            let json = await f.json()
+            if (json.request.status_code == 200) {
+                return true
+            } else {
+                return json.request.status_code
+            }
+        }
+        this.update = async (data) => {
+            let a_t = data?.access_token || jwt
+            if (a_t == undefined) return { "error": "please enter a access token" }
+            let name = data?.name
+            let desc = data?.desc
+            if (!name && !desc) return { "error": "please enter either a name, description, or both" }
+
+            let reqBody = {}
+            if (name) reqBody.name = name
+            if (desc) reqBody.description = desc
+
+            let f = await fetch(`https://${baseDomain}/v1/channel/${this.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Authorization": `Bearer ${a_t}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(reqBody)
+            })
+            let json = await f.json()
+            if (json.request.status_code == 200) {
+                return true
+            } else {
+                return json.request.status_code
+            }
+        }
         this.subscribeUpdates = () => {
             if (this.websocket.rawsocket == undefined) return false;
             this.websocket.rawsocket.send(JSON.stringify({ "event": "subscribe", "message": `channel_${this.id}` }))

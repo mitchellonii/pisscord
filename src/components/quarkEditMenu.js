@@ -3,7 +3,15 @@ import { useEffect, useState } from 'react';
 
 function QuarkEditMenu({ setUserQuarks, displayQuarkEditContextData, toggleQuarkEditContextData, displayQuarkEditContext, toggleQuarkEditContext, api }) {
     let [selectedOption, setSelectedOption] = useState(0);
+    useEffect(() => {
+        async function e() {
+            let x = await api.getQuark({ id: displayQuarkEditContextData.id })
+            toggleQuarkEditContextData(x);
+        }
+        e()
+    }, [])
     if (!displayQuarkEditContext) return;
+
     return <div className="fullScreenMenu">
         <div className="menuBar">
             <div className="title"><h1>{displayQuarkEditContextData.name.toUpperCase()}</h1></div>
@@ -14,7 +22,7 @@ function QuarkEditMenu({ setUserQuarks, displayQuarkEditContextData, toggleQuark
         <div className="focusArea">
             <Overview index={0} setUserQuarks={setUserQuarks} currentIndex={selectedOption} data={displayQuarkEditContextData} api={api} setData={toggleQuarkEditContextData} />
             <Members index={1} currentIndex={selectedOption} data={displayQuarkEditContextData} api={api} />
-            <Channels index={2} currentIndex={selectedOption} data={displayQuarkEditContextData} />
+            <Channels index={2} api={api} currentIndex={selectedOption} data={displayQuarkEditContextData} editData={toggleQuarkEditContextData} />
         </div>
         <div className="exitButton" onClick={() => { toggleQuarkEditContext(false) }}>
             Exit
@@ -165,9 +173,86 @@ function Members({ index, currentIndex, data, api }) {
     </>
     )
 }
-function Channels({ index, currentIndex, data }) {
+function Channels({ index, currentIndex, data, editData, api }) {
+    let [selectedChannel, setSelectedChannel] = useState({})
+    let [sliderState, setSliderState] = useState(0)
+    let [changes, setChanges] = useState({})
+    function handleChannelSelect(event, channel) {
+        setSelectedChannel({ ...channel })
+        setChanges({})
+        document.getElementById("name").value = channel.name
+        document.getElementById("desc").value = channel.description
+        setSliderState(1)
+    }
+    function unselect() {
+        setSliderState(0)
+    }
+    function handleNameInput(e) {
+        if (e.currentTarget.value !== "" && e.currentTarget.value !== selectedChannel.name) setChanges({ ...changes, name: e.currentTarget.value })
+        else setChanges({ ...changes, name: null })
+    }
+
+    function handleDescInput(e) {
+        if (e.currentTarget.value !== "" && e.currentTarget.value !== selectedChannel.description) setChanges({ ...changes, desc: e.currentTarget.value })
+        else setChanges({ ...changes, desc: null })
+    }
+    async function deleteChannel() {
+        console.log(selectedChannel)
+        let x = await selectedChannel.delete()
+        if (x == true) {
+            editData(await api.getQuark({ id: data.id }))
+            setSelectedChannel({})
+            setSliderState(0)
+            setChanges({})
+        }
+    }
+
+    async function newChannel() {
+        let x = await data.createChannel({ name: "New Channel" })
+        if (typeof x == "number") return //uh oh
+        setSelectedChannel(x)
+        setSliderState(1)
+        editData(await api.getQuark({ id: data.id }))
+
+    }
+    async function saveChanges() {
+        let x = await selectedChannel.update({ name: changes.name, desc: changes.desc })
+        if (x == true) {
+            editData(await api.getQuark({ id: data.id }))
+            setSelectedChannel(x)
+            setSliderState(0)
+            setChanges({})
+        } else {
+            console.log(x)
+        }
+    }
     if (currentIndex !== index) return;
-    return <>Channels</>
+
+    return <>
+        <h1 className="title">{sliderState == 0 ? "Channels" : selectedChannel.name}</h1>
+        <div className={`slider stage-${sliderState}`}>
+            <div className="slide channelList">
+                <div key="new" className="channel"><h1>New</h1><h2>Create a channel</h2><button onClick={newChannel}>Create</button></div>
+                {data.channels.map((c, i) => { return <div key={i} className="channel"><h1>{c.name}</h1><h2>{c.description || "[No description]"}</h2><button onClick={(e) => { handleChannelSelect(e, c) }}>Edit</button></div> })}
+            </div>
+            <div className="slide channelEdit">
+                <form>
+                    <section>
+                        <label htmlFor="name">Name:</label>
+                        <input id="name" placeholder={selectedChannel.name} defaultValue={selectedChannel.name} onInput={handleNameInput}></input>
+                    </section>
+                    <section>
+                        <label htmlFor="desc">Description:</label>
+                        <input id="desc" placeholder={selectedChannel.description} defaultValue={selectedChannel.description} onInput={handleDescInput}></input>
+                    </section>
+                </form>
+                <button onClick={deleteChannel}>Delete</button>
+                <button onClick={unselect}>Back</button>
+            </div>
+
+        </div>
+        {changes.desc || changes.name ? <div className="saveBar"><h1>Do you want to save your changes?</h1><button onClick={saveChanges}>Save</button></div> : <></>}
+    </>
 }
 
 

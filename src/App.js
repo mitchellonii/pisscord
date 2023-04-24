@@ -62,6 +62,8 @@ function App() {
             default:
               console.log(data)
               break;
+            case "channelDelete":
+              setUserQuarks(await api.getMyQuarks())
           }
         }
       }

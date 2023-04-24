@@ -15,7 +15,7 @@ function Main({ setQuarkOrder, quarkOrder, setSelectedQuarkId, selectedQuarkId, 
         <QuarkList displayQuarkEditContextData={displayQuarkEditContextData} toggleQuarkEditContextData={toggleQuarkEditContextData} displayQuarkEditContext={displayQuarkEditContext} toggleQuarkEditContext={toggleQuarkEditContext} setQuarkOrder={setQuarkOrder} quarkOrder={quarkOrder} selectedQuarkId={selectedQuarkId} setSelectedQuarkId={setSelectedQuarkId} userQuarks={userQuarks} setUserQuarks={setUserQuarks} isAuth={isAuth} setAuthState={setAuthState} userData={userData} setUserData={setUserData} api={api} />
         <ChannelList />
         <ChannelArea />
-        <QuarkEditContext setUserQuarks={setUserQuarks} api={api} displayQuarkEditContextData={displayQuarkEditContextData} toggleQuarkEditContextData={toggleQuarkEditContextData} displayQuarkEditContext={displayQuarkEditContext} toggleQuarkEditContext={toggleQuarkEditContext} />
+        {displayQuarkEditContext ? <QuarkEditContext setUserQuarks={setUserQuarks} api={api} displayQuarkEditContextData={displayQuarkEditContextData} toggleQuarkEditContextData={toggleQuarkEditContextData} displayQuarkEditContext={displayQuarkEditContext} toggleQuarkEditContext={toggleQuarkEditContext} /> : <></>}
     </div>
 }
 

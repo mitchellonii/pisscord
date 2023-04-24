@@ -66,7 +66,7 @@ class Quark {
             if (json.request.status_code == 200) {
                 return new Channel(json.response.channel, jwt, ws, baseDomain, wsBaseDomain)
             } else {
-                return json
+                return json.request.status_code
             }
         }
         this.leave = async (data) => {
@@ -133,8 +133,7 @@ class Quark {
             if (file == undefined) return { "error": "please enter a file" }
 
 
-            let f = await fetch(`https://${baseDomain}/v1/quark/${this.id}/icon
-            `, {
+            let f = await fetch(`https://${baseDomain}/v1/quark/${this.id}/icon`, {
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${a_t}`,

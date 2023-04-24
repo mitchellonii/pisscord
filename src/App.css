@@ -1270,6 +1270,7 @@ input:focus {
   height: 80px;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.1);
+  min-width: 480px;
 }
 
 .fullScreenMenu>.focusArea>.memberList>.member>img {
@@ -1342,4 +1343,120 @@ input:focus {
 .fullScreenMenu>.focusArea>.memberList>.member>button.error {
   background-color: red;
   width: 100px;
+}
+
+.fullScreenMenu>.focusArea>.slider {
+  width: calc(100% - 30px);
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  flex-grow: 0;
+  overflow-x: hidden;
+}
+
+.fullScreenMenu>.focusArea>.slider>.slide {
+  width: 100%;
+  position: relative;
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+
+.fullScreenMenu>.focusArea>.slider>.slide:has(.channel) {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.fullScreenMenu>.focusArea>.slider>.channelList {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.fullScreenMenu>.focusArea>.slider>.slide>.channel {
+  width: 600px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+  min-width: fit-content;
+  flex-wrap: wrap;
+}
+
+.fullScreenMenu>.focusArea>.slider>.slide>.channel>h1::before {
+  content: "#";
+}
+
+.fullScreenMenu>.focusArea>.slider>.slide>.channel>h1 {
+  position: relative;
+  color: white;
+  font-size: 20px;
+  text-align: left;
+  width: max-content;
+  height: 50px;
+  line-height: 50px;
+  padding: 0;
+  margin: 0;
+  padding-left: 10px;
+
+}
+
+.fullScreenMenu>.focusArea>.slider>.slide>.channel>h2 {
+  position: relative;
+  color: var(--color-text-label);
+  font-size: 13px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  text-align: left;
+  height: 50px;
+  line-height: 50px;
+  padding: 0;
+  margin: 0;
+  margin-right: 50px;
+  max-width: 270px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.fullScreenMenu>.focusArea>.slider>.slide>.channel>button {
+  width: 80px;
+  position: relative;
+  top: 230px;
+  right: 10px;
+  border: none;
+  height: 30px;
+  background-color: var(--color-action);
+  border-radius: 6px;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.fullScreenMenu>.focusArea>.slider.stage-1>.slide {
+  transform: translateX(-100%)
+}
+
+.fullScreenMenu>.focusArea>.slider.stage-0>.slide {
+  transform: translateX(0%)
+}
+
+.fullScreenMenu>.focusArea>.slider>.channelEdit {
+  width: calc(100% - 20px);
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 30px;
+  flex-wrap: wrap;
 }
