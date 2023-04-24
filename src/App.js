@@ -79,11 +79,11 @@ function App() {
           let listner = await api.eventListner()
           listner.on("event", listnerHandler)
           console.log("revived websock")
-          api.websocket.rawsocket.onclose = websocketReviver2point0
+          api.websocket.rawsocket.addEventListener("close", websocketReviver2point0)
         }, 5000)
 
       }
-      api.websocket.rawsocket.onclose = websocketReviver2point0
+      api.websocket.rawsocket.addEventListener("close", websocketReviver2point0)
 
 
     }

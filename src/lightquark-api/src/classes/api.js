@@ -30,18 +30,24 @@ class API {
                     let a_t = data?.access_token || this.access_token
                     if (a_t == undefined) return { "error": "please enter a access token" }
                     this.websocket.rawsocket = new WebSocket(`wss://${wsBaseDomain}`, a_t)
+                    let i;
                     this.websocket.rawsocket.onopen = () => {
                         this.websocket.connected = true;
-                        setInterval(() => {
+                        i = setInterval(() => {
                             this.websocket.rawsocket.send(JSON.stringify({ event: 'heartbeat', message: 'ok' }))
                         }, 50000)
                         res(true);
                     }
 
+                    this.websocket.rawsocket.addEventListener("close", (e) => {
+                        this.websocket.connected = false;
+                        rej(false)
+                        clearInterval(i)
+                    })
                     this.websocket.rawsocket.onerror = (e) => {
                         this.websocket.connected = false;
-                        alert(e)
                         rej(false)
+                        clearInterval(i)
                     }
 
                 })
