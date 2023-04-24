@@ -232,18 +232,18 @@ function Channels({ index, currentIndex, data, editData, api }) {
         <h1 className="title">{sliderState == 0 ? "Channels" : selectedChannel.name}</h1>
         <div className={`slider stage-${sliderState}`}>
             <div className="slide channelList">
-                <div key="new" className="channel"><h1>New</h1><h2>Create a channel</h2><button onClick={newChannel}>Create</button></div>
+                <div key="new" className="channel"><h1>New</h1><h2>Create a channel</h2><button className="green" onClick={newChannel}>Create</button></div>
                 {data.channels.map((c, i) => { return <div key={i} className="channel"><h1>{c.name}</h1><h2>{c.description || "[No description]"}</h2><button onClick={(e) => { handleChannelSelect(e, c) }}>Edit</button></div> })}
             </div>
             <div className="slide channelEdit">
                 <form>
                     <section>
                         <label htmlFor="name">Name:</label>
-                        <input id="name" placeholder={selectedChannel.name} defaultValue={selectedChannel.name} onInput={handleNameInput}></input>
+                        <input autoComplete="off" id="name" placeholder={selectedChannel.name} defaultValue={selectedChannel.name} onInput={handleNameInput}></input>
                     </section>
                     <section>
                         <label htmlFor="desc">Description:</label>
-                        <input id="desc" placeholder={selectedChannel.description} defaultValue={selectedChannel.description} onInput={handleDescInput}></input>
+                        <input autoComplete="off" id="desc" placeholder={selectedChannel.description} defaultValue={selectedChannel.description} onInput={handleDescInput}></input>
                     </section>
                 </form>
                 <button onClick={deleteChannel} className="red">Delete</button>
