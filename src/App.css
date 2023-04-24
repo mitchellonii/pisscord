@@ -1387,8 +1387,9 @@ input:focus {
   flex-direction: row;
   justify-content: flex-start;
   gap: 20px;
-  min-width: fit-content;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  max-width: 600px;
+  flex-grow: 0;
 }
 
 .fullScreenMenu>.focusArea>.slider>.slide>.channel>h1::before {
@@ -1400,6 +1401,7 @@ input:focus {
   color: white;
   font-size: 20px;
   text-align: left;
+  flex-shrink: 0;
   width: max-content;
   height: 50px;
   line-height: 50px;
@@ -1421,7 +1423,6 @@ input:focus {
   padding: 0;
   margin: 0;
   margin-right: 50px;
-  max-width: 400px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -1432,6 +1433,7 @@ input:focus {
   position: relative;
   top: 230px;
   right: 10px;
+  flex-shrink: 0;
   border: none;
   height: 30px;
   background-color: var(--color-action);
@@ -1518,8 +1520,8 @@ input:focus {
   font-weight: bold;
 }
 
-.fullScreenMenu>.focusArea>.slider>.channelEdit>button.red {
-  background-color: red;
+button.red {
+  background-color: red !important;
 }
 
 button.green {

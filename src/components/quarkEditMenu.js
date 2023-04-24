@@ -168,7 +168,7 @@ function Members({ index, currentIndex, data, api }) {
     return (<>
         <h1 className="title">Members</h1>
         <div className="memberList">{
-            displayLoading ? <Loader display={true}></Loader> : members.map((m, i) => { return (<div key={i} className="member"><img src={m.avatar}></img><h1>{m.username}</h1><h2>{m.id}</h2>{data.ownerIds.includes(m.id) ? <button onClick={(e) => { removeOwner(e, m.id) }}>Remove owner</button> : <button onClick={(e) => { makeOwner(e, m.id) }}>Make owner</button>}</div>) })
+            displayLoading ? <Loader display={true}></Loader> : members.map((m, i) => { return (<div key={i} className="member"><img src={m.avatar}></img><h1>{m.username}</h1><h2>{m.id}</h2>{data.ownerIds.includes(m.id) ? <button className="red" onClick={(e) => { removeOwner(e, m.id) }}>Remove owner</button> : <button onClick={(e) => { makeOwner(e, m.id) }}>Make owner</button>}</div>) })
         }</div>
     </>
     )
@@ -210,9 +210,9 @@ function Channels({ index, currentIndex, data, editData, api }) {
     async function newChannel() {
         let x = await data.createChannel({ name: "New Channel" })
         if (typeof x == "number") return //uh oh
+        editData(await api.getQuark({ id: data.id }))
         setSelectedChannel(x)
         setSliderState(1)
-        editData(await api.getQuark({ id: data.id }))
 
     }
     async function saveChanges() {

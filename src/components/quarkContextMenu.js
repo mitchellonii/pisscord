@@ -52,7 +52,7 @@ function QuarkContextMenu({ displayQuarkEditContextData, toggleQuarkEditContextD
             (order.length - order.indexOf(data.id) !== 1 ? <div onClick={moveDown}><a>Move down</a></div> : "")
         }
         {
-            (data.ownerIds.includes(userData.id) || true ? <><div onClick={editQuark}><a>Edit</a></div><div onClick={deleteQuark}><a>Delete</a></div></> : <div onClick={leave}><a>Leave</a></div>)
+            (data.ownerIds.includes(userData.id) ? <><div onClick={editQuark}><a>Edit</a></div><div onClick={deleteQuark}><a>Delete</a></div></> : <div onClick={leave}><a>Leave</a></div>)
         }
     </div >
 }
