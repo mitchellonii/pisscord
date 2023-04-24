@@ -129,11 +129,38 @@ function Members({ index, currentIndex, data, api }) {
         e()
     }, [])
 
+    async function makeOwner(e, id) {
+        let x = await data.updateQuark({ owners: [...data.ownerIds, id] })
+        if (typeof x == 'number') {
+            e.target.innerText = `Error: ${x}`;
+            e.target.classList.add('error')
+            setInterval(() => {
+                e.target.classList.remove('error')
+                e.target.innerText = `Make owner`;
+
+            }, 5000)
+        }
+    }
+    async function removeOwner(e, id) {
+        let owners = [...data.ownerIds]
+        owners.splice(owners.indexOf(id), 1)
+        let x = await data.updateQuark({ owners: owners })
+        if (typeof x == 'number') {
+            e.target.innerText = `Error: ${x}`;
+            e.target.classList.add('error')
+            setInterval(() => {
+                e.target.classList.remove('error')
+                e.target.innerText = `Make owner`;
+
+            }, 5000)
+        }
+    }
+
     if (currentIndex !== index) return;
     return (<>
         <h1 className="title">Members</h1>
         <div className="memberList">{
-            displayLoading ? <Loader display={true}></Loader> : members.map((m, i) => { return (<div key={i}>{JSON.stringify(m)}</div>) })
+            displayLoading ? <Loader display={true}></Loader> : members.map((m, i) => { return (<div key={i} className="member"><img src={m.avatar}></img><h1>{m.username}</h1><h2>{m.id}</h2>{data.ownerIds.includes(m.id) ? <button onClick={(e) => { removeOwner(e, m.id) }}>Remove owner</button> : <button onClick={(e) => { makeOwner(e, m.id) }}>Make owner</button>}</div>) })
         }</div>
     </>
     )

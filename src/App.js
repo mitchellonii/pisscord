@@ -72,14 +72,15 @@ function App() {
       var websocketReviver2point0 = async () => {
         api.websocket.connected = false;
         api.websocket.rawsocket = undefined;
-        console.log("websock disconnect, attempting to fix")
         setTimeout(async () => {
-          let h = await api.websocket.connect()
-          if (h == false) { setTimeout(websocketReviver2point0, 5000) }
+          let connectionState = await api.websocket.connect()
+          if (connectionState == false) setTimeout(websocketReviver2point0, 5000)
           let listner = await api.eventListner()
           listner.on("event", listnerHandler)
-          console.log("revived websock")
           api.websocket.rawsocket.addEventListener("close", websocketReviver2point0)
+          let data = await Promise.all([api.getMyQuarks(), api.getQuarkOrder()])//refetch data just in case somehting was missed while ws closed
+          setUserQuarks(data[0])
+          setQuarkOrder(data[1])
         }, 5000)
 
       }
@@ -91,14 +92,14 @@ function App() {
   }
 
 
-  function devServer(ret = false) {
+  function devServer() {
     api = new Api({}, devDomain, wsDevDomain)
     setInitLoadText(null);
     setInitLoad(true);
     setIsAuthenticated(true)
     setTimeout(checkAuth, 1000)
   }
-  function originalServer(ret = false) {
+  function originalServer() {
     api = new Api({}, baseDomain, wsBaseDomain)
     setInitLoadText(null);
     setInitLoad(true);
