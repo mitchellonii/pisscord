@@ -504,6 +504,7 @@ input.invalid {
   justify-content: flex-start;
   gap: 8px;
   background-color: var(--color-background-10);
+  z-index: 50;
 }
 
 .navBar>.quark,
@@ -668,7 +669,7 @@ input.invalid {
 .contextMenu {
   position: fixed;
   background-color: var(--color-action-input);
-  width: 100px;
+  width: 130px;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -1439,8 +1440,8 @@ input:focus {
   background-color: var(--color-action);
   border-radius: 6px;
   cursor: pointer;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0px;
+  transform: translateY(10px);
 }
 
 .fullScreenMenu>.focusArea>.slider.stage-1>.slide {
@@ -1526,4 +1527,129 @@ button.red {
 
 button.green {
   background-color: greenyellow !important;
+}
+
+.channelList {
+  position: absolute;
+  left: 70px;
+  top: 0px;
+  height: 100%;
+  width: 240px;
+  background-color: var(--color-background-30);
+  z-index: 10;
+}
+
+.channelList>.header {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: var(--color-background-30);
+  border-bottom: 2px var(--color-background-10) solid;
+  cursor: pointer;
+}
+
+.channelList>.header>.title {
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
+  position: relative;
+  top: 0;
+  left: 0;
+  margin: 0;
+}
+
+.channelList>.channels {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  padding-right: 5px;
+  height: fit-content;
+  min-height: calc(100% - 60px);
+  flex-direction: column;
+  gap: 5px;
+}
+
+.channelList>.channels>.channel {
+  width: 100%;
+  height: 30px;
+  padding: 0;
+  border-radius: 5px;
+  background-color: transparent;
+  transition: 0.2s;
+  box-sizing: border-box;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+.channelList>.channels>.channel:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.channelList>.channels>.channel>p::before {
+  content: "#";
+  margin-right: 6px;
+  position: relative;
+}
+
+.channelList>.channels>.channel>p {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 30px;
+  text-align: left;
+  margin: 0;
+  color: var(--color-text-label);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.header>.headerMenu {
+  position: fixed;
+  display: flex;
+  top: 60px;
+  left: 160px;
+  width: 140px;
+  height: fit-content;
+  border-radius: 5px;
+  background-color: var(--color-action-input);
+  pointer-events: all;
+  z-index: 80;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.header>.headerMenu>div {
+  width: 100%;
+  height: 30px;
+  padding: 3px;
+  box-sizing: border-box;
+  background-color: transparent;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.header>.headerMenu>div:hover {
+  background-color: #5273ff;
+}
+
+.header>.headerMenu>div>h1 {
+  font-size: 14px;
+  color: whitesmoke;
+  line-height: 30px;
+  margin: 0;
+  font-weight: normal;
 }

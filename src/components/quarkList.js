@@ -4,9 +4,8 @@ import piss from "../piss.png"
 import { JoinFlow, CreateFlow } from './createJoinFlow'
 import QuarkContextMenu from './quarkContextMenu'
 import LoadingBox from './fullscreenLoad'
-function QuarkList({ displayQuarkEditContextData, toggleQuarkEditContextData, displayQuarkEditContext, toggleQuarkEditContext, setQuarkOrder, quarkOrder, setSelectedQuarkId, selectedQuarkId, userQuarks, setUserQuarks, isAuth, setAuthState, userData, setUserData, api }) {
+function QuarkList({ quarkContextMenu, toggleQuarkContextMenu, toggleQuarkServerProfileContext, displayQuarkEditContextData, toggleQuarkEditContextData, displayQuarkEditContext, toggleQuarkEditContext, setQuarkOrder, quarkOrder, setSelectedQuarkId, selectedQuarkId, userQuarks, setUserQuarks, isAuth, setAuthState, userData, setUserData, api }) {
 
-    let [quarkContextMenu, toggleQuarkContextMenu] = useState(false)
     let [selectedQCM, setSelectedQCM] = useState({})
     let [contextMenuPos, setCMPos] = useState({ x: -1, y: -1 })
     let [joinPopup, toggleJoinPopup] = useState(false);
@@ -70,7 +69,7 @@ function QuarkList({ displayQuarkEditContextData, toggleQuarkEditContextData, di
             </div>
         </div>
 
-        <QuarkContextMenu displayQuarkEditContextData={displayQuarkEditContextData} toggleQuarkEditContextData={toggleQuarkEditContextData} displayQuarkEditContext={displayQuarkEditContext} toggleQuarkEditContext={toggleQuarkEditContext} toggleLoaderBox={toggleLoaderBox} setUserQuarks={setUserQuarks} userData={userData} api={api} pos={contextMenuPos} shown={quarkContextMenu} toggle={toggleQuarkContextMenu} data={selectedQCM} order={quarkOrder} setOrder={setQuarkOrder} />
+        <QuarkContextMenu toggleQuarkServerProfileContext={toggleQuarkServerProfileContext} displayQuarkEditContextData={displayQuarkEditContextData} toggleQuarkEditContextData={toggleQuarkEditContextData} displayQuarkEditContext={displayQuarkEditContext} toggleQuarkEditContext={toggleQuarkEditContext} toggleLoaderBox={toggleLoaderBox} setUserQuarks={setUserQuarks} userData={userData} api={api} pos={contextMenuPos} shown={quarkContextMenu} toggle={toggleQuarkContextMenu} data={selectedQCM} order={quarkOrder} setOrder={setQuarkOrder} />
         <JoinFlow show={joinPopup} toggleShow={toggleJoinPopup} api={api} setUserQuarks={setUserQuarks} setOrder={setQuarkOrder} />
         <CreateFlow show={createPopup} toggleShow={toggleCreatePopup} api={api} setUserQuarks={setUserQuarks} setOrder={setQuarkOrder} />
         <LoadingBox show={showLoadBox} />

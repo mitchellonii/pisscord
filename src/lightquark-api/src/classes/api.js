@@ -241,19 +241,22 @@ class API {
                 return json
             }
         }
-        this.setGlobalNick = async (data) => {
+        this.setNick = async (data) => {
             let a_t = data?.access_token || this.access_token
             if (a_t == undefined) return { "error": "please enter a access token" }
 
             let nick = data?.nick
             if (nick == undefined) return { "error": "please enter a nickname" }
+
+            let scope = data?.id || "global"
+
             let f = await fetch(`https://${baseDomain}/v2/user/me/nick/`, {
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${a_t}`,
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ "scope": "global", "nickname": nick })
+                body: JSON.stringify({ "scope": scope, "nickname": nick })
             })
             let json = await f.json()
             if (json.request.status_code == 200) {

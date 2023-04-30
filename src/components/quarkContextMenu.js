@@ -1,4 +1,4 @@
-function QuarkContextMenu({ displayQuarkEditContextData, toggleQuarkEditContextData, displayQuarkEditContext, toggleQuarkEditContext, toggleLoaderBox, setUserQuarks, setOrder, pos, shown, toggle, data, order, api, userData }) {
+function QuarkContextMenu({ toggleQuarkServerProfileContext, displayQuarkEditContextData, toggleQuarkEditContextData, displayQuarkEditContext, toggleQuarkEditContext, toggleLoaderBox, setUserQuarks, setOrder, pos, shown, toggle, data, order, api, userData }) {
     if (!shown) return;
     async function moveUp(e) {
         let index = order.indexOf(data.id)
@@ -43,8 +43,15 @@ function QuarkContextMenu({ displayQuarkEditContextData, toggleQuarkEditContextD
     function handleInvite(e) {
         navigator.clipboard.writeText(data.invite);
     }
+
+    function handleServerProfile() {
+        toggleQuarkEditContextData(data);
+
+        toggleQuarkServerProfileContext(true);
+    }
     return <div className="contextMenu" style={{ top: pos.y, left: pos.x }}>
         <div onClick={handleInvite}><a>Copy invite</a></div>
+        <div onClick={handleServerProfile}><a>Edit server profile</a></div>
         {
             (order.indexOf(data.id) !== 0 ? <div onClick={moveUp}><a>Move up</a></div> : "")
         }
